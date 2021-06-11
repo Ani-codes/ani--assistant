@@ -23,9 +23,9 @@ CHANNEL = userge.getCLogger(__name__)
     'flags': {
         '-pull': "pull updates",
         '-push': "push updates to heroku",
-        '-master': "select master branch",
+        '-alpha': "select alpha branch",
         '-beta': "select beta branch"},
-    'usage': "{tr}update : check updates from master branch\n"
+    'usage': "{tr}update : check updates from alpha branch\n"
              "{tr}update -[branch_name] : check updates from any branch\n"
              "add -pull if you want to pull updates\n"
              "add -push if you want to push updates to heroku",
@@ -36,7 +36,7 @@ async def check_update(message: Message):
     flags = list(message.flags)
     pull_from_repo = False
     push_to_heroku = False
-    branch = "master"
+    branch = "alpha"
     if "pull" in flags:
         pull_from_repo = True
         flags.remove("pull")
