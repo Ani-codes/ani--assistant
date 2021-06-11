@@ -10,7 +10,7 @@ from userge import Message, userge
 
 
 @userge.on_cmd(
-    "ids",
+    "id",
     about={
         "header": "display ids",
         "usage": "reply {tr}ids any message, file or just send this command",
@@ -18,10 +18,10 @@ from userge import Message, userge
 )
 async def getids(message: Message):
     msg = message.reply_to_message or message
-    out_str = f"👥 **Chat ID** : `{(msg.forward_from_chat or msg.chat).id}`\n"
-    out_str += f"💬 **Message ID** : `{msg.forward_from_message_id or msg.message_id}`\n"
+    out_str =  f" **× Chat ID** : `{(msg.forward_from_chat or msg.chat).id}`\n"
+    out_str += f" **× Message ID** : `{msg.forward_from_message_id or msg.message_id}`\n"
     if msg.from_user:
-        out_str += f"🙋‍♂️ **From User ID** : `{msg.from_user.id}`\n"
+        out_str += f" **× From User ID** : `{msg.from_user.id}`\n"
     file_id = None
     if msg.audio:
         type_ = "audio"
@@ -48,5 +48,5 @@ async def getids(message: Message):
         type_ = "video"
         file_id = msg.video.file_id
     if file_id is not None:
-        out_str += f"📄 **File ID** (`{type_}`): `{file_id}`"
+        out_str += f"**× File ID** (`{type_}`): `{file_id}`"
     await message.edit(out_str)
