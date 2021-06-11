@@ -27,13 +27,13 @@ LOGGER = userge.getLogger(__name__)
     check_downpath=True,
 )
 async def down_load_media(message: Message):
-    """download from tg and url"""
+    """download from telegram and url"""
     if message.reply_to_message and message.reply_to_message.media:
         resource = message.reply_to_message
     elif message.input_str:
         resource = message.input_str
     else:
-        await message.edit("Please read `.help download`", del_in=5)
+        await message.edit("Please read `/help download`", del_in=5)
         return
     try:
         dl_loc, d_in = await handle_download(message, resource)
@@ -56,7 +56,7 @@ async def handle_download(
 
 async def url_download(message: Message, url: str) -> Tuple[str, int]:
     """download from link"""
-    await message.edit("`Downloading From URL...`")
+    await message.edit("`Downloading...`")
     start_t = datetime.now()
     custom_file_name = unquote_plus(os.path.basename(url))
     if "|" in url:
@@ -80,16 +80,16 @@ async def url_download(message: Message, url: str) -> Tuple[str, int]:
         progress_str = (
             "__{}__\n"
             + "```[{}{}]```\n"
-            + "**Progress** : `{}%`\n"
-            + "**URL** : `{}`\n"
-            + "**FILENAME** : `{}`\n"
-            + "**Completed** : `{}`\n"
-            + "**Total** : `{}`\n"
-            + "**Speed** : `{}`\n"
-            + "**ETA** : `{}`"
+            + "**➠ Progress** : `{}%`\n"
+            + "**➠ URL** : `{}`\n"
+            + "**➠ FILENAME** : `{}`\n"
+            + "**➠ Completed** : `{}`\n"
+            + "**➠ Total** : `{}`\n"
+            + "**➠ Speed** : `{}`\n"
+            + "**➠ ETA** : `{}`"
         )
         progress_str = progress_str.format(
-            "trying to download",
+            "Downloading.... \n",
             "".join(
                 (
                     Config.FINISHED_PROGRESS_STR
@@ -120,7 +120,7 @@ async def url_download(message: Message, url: str) -> Tuple[str, int]:
 
 async def tg_download(message: Message, to_download: Message) -> Tuple[str, int]:
     """download from tg file"""
-    await message.edit("`Downloading From TG...`")
+    await message.edit("`Downloading...`")
     start_t = datetime.now()
     custom_file_name = Config.DOWN_PATH
     if message.filtered_input_str:
@@ -131,7 +131,7 @@ async def tg_download(message: Message, to_download: Message) -> Tuple[str, int]
         message=to_download,
         file_name=custom_file_name,
         progress=progress,
-        progress_args=(message, "trying to download"),
+        progress_args=(message, "Downloading..."),
     )
     if message.process_is_canceled:
         raise ProcessCanceled
