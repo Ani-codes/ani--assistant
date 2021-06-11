@@ -126,10 +126,8 @@ if userge.has_bot:
             [
                 [
                     InlineKeyboardButton("◀️  Back", callback_data="backbtn_ihelp"),
-                    InlineKeyboardButton(
-                        "📕  EXAMPLE",
-                        switch_inline_query_current_chat=_COMMANDS[command_name]["i_q"],
-                    ),
+                  
+                    
                 ]
             ]
         )
