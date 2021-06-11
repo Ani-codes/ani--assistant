@@ -56,7 +56,7 @@ async def handle_download(
 
 async def url_download(message: Message, url: str) -> Tuple[str, int]:
     """download from link"""
-    await message.edit("`Downloading...`")
+    await message.edit("Downloading... \n")
     start_t = datetime.now()
     custom_file_name = unquote_plus(os.path.basename(url))
     if "|" in url:
@@ -89,7 +89,7 @@ async def url_download(message: Message, url: str) -> Tuple[str, int]:
             + "**➠ ETA** : `{}`"
         )
         progress_str = progress_str.format(
-            "Downloading.... \n",
+            "Downloading....",
             "".join(
                 (
                     Config.FINISHED_PROGRESS_STR
