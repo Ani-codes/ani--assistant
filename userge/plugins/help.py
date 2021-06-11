@@ -43,16 +43,16 @@ from .utils.notes import get_inote
 CHANNEL = userge.getCLogger(__name__)
 
 _CATEGORY = {
-    "admin": "🙋🏻‍♂️",
-    "fun": "🎨",
-    "misc": "🧩",
-    "tools": "🧰",
-    "utils": "🗂",
-    "xtra": "➕",
-    "temp": "♻️",
-    "plugins": "💎",
-    "bot": "💠",
-    "custom": "🔧",
+    "admin": "➠
+    "fun": "➠",
+    "misc": "➠",
+    "tools": "➠",
+    "utils": "➠",
+    "xtra": "➠",
+    "temp": "➠",
+    "plugins": "➠",
+    "bot": "➠",
+    "custom": "➠",
 }
 # Database
 SAVED_SETTINGS = get_collection("CONFIGS")
