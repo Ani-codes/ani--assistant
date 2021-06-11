@@ -295,12 +295,12 @@ class _GDrive:
                     tmp = (
                         "__Uploading to GDrive...__\n"
                         + "```[{}{}]({}%)```\n"
-                        + "**File Name** : `{}`\n"
-                        + "**File Size** : `{}`\n"
-                        + "**Uploaded** : `{}`\n"
-                        + "**Completed** : `{}/{}`\n"
-                        + "**Speed** : `{}/s`\n"
-                        + "**ETA** : `{}`"
+                        + "**➠ File Name** : `{}`\n"
+                        + "**➠ File Size** : `{}`\n"
+                        + "**➠ Uploaded** : `{}`\n"
+                        + "**➠ Completed** : `{}/{}`\n"
+                        + "**➠ Speed** : `{}/s`\n"
+                        + "**➠ ETA** : `{}`"
                     )
                     self._progress = tmp.format(
                         "".join(
@@ -410,12 +410,12 @@ class _GDrive:
                     tmp = (
                         "__Downloading From GDrive...__\n"
                         + "```[{}{}]({}%)```\n"
-                        + "**File Name** : `{}`\n"
-                        + "**File Size** : `{}`\n"
-                        + "**Downloaded** : `{}`\n"
-                        + "**Completed** : `{}/{}`\n"
-                        + "**Speed** : `{}/s`\n"
-                        + "**ETA** : `{}`"
+                        + "**➠ File Name** : `{}`\n"
+                        + "**➠ File Size** : `{}`\n"
+                        + "**➠ Downloaded** : `{}`\n"
+                        + "**➠ Completed** : `{}/{}`\n"
+                        + "**➠ Speed** : `{}/s`\n"
+                        + "**➠ ETA** : `{}`"
                     )
                     self._progress = tmp.format(
                         "".join(
