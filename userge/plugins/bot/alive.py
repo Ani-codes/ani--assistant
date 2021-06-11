@@ -1,275 +1,201 @@
-"""Fun plugin"""
+# Copyright (C) 2020-2021 by UsergeTeam@Github, < https://github.com/UsergeTeam >.
+#
+# This file is part of < https://github.com/UsergeTeam/Userge > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/UsergeTeam/Userge/blob/master/LICENSE >
+#
+# All rights reserved.
 
+import re
+import os
 import asyncio
-from datetime import datetime
-from re import compile as comp_regex
+from typing import Tuple, Optional
 
-from pyrogram import filters
-from pyrogram.errors import BadRequest, FloodWait, Forbidden, MediaEmpty
-from pyrogram.file_id import PHOTO_TYPES, FileId
-from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-
-from userge import Config, Message, get_version, userge, versions
-from userge.core.ext import RawClient
-from userge.utils import get_file_id, rand_array
-
-_ALIVE_REGEX = comp_regex(
-    r"http[s]?://(i\.imgur\.com|telegra\.ph/file|t\.me)/(\w+)(?:\.|/)(gif|jpg|png|jpeg|[0-9]+)(?:/([0-9]+))?"
+import wget
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.errors import (
+    ChatSendMediaForbidden, Forbidden, SlowmodeWait, PeerIdInvalid,
+    FileIdInvalid, FileReferenceEmpty, BadRequest, ChannelInvalid, MediaEmpty
 )
-_USER_CACHED_MEDIA, _BOT_CACHED_MEDIA = None, None
 
-LOGGER = userge.getLogger(__name__)
+from userge.core.ext import pool
+from userge.utils import get_file_id_of_media
+from userge import userge, Message, Config, versions, get_version, logging
 
+_LOG = logging.getLogger(__name__)
 
-async def _init() -> None:
-    global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA
-    if Config.ALIVE_MEDIA and Config.ALIVE_MEDIA.lower() != "false":
-        am_type, am_link = await Bot_Alive.check_media_link(Config.ALIVE_MEDIA.strip())
-        if am_type and am_type == "tg_media":
-            try:
-                if Config.HU_STRING_SESSION:
-                    _USER_CACHED_MEDIA = get_file_id(
-                        await userge.get_messages(am_link[0], am_link[1])
-                    )
-            except Exception as u_rr:
-                LOGGER.debug(u_rr)
-            try:
-                if userge.has_bot:
-                    _BOT_CACHED_MEDIA = get_file_id(
-                        await userge.bot.get_messages(am_link[0], am_link[1])
-                    )
-            except Exception as b_rr:
-                LOGGER.debug(b_rr)
+_IS_TELEGRAPH = False
+_IS_STICKER = False
+
+_DEFAULT = "https://t.me/JoinAnimeGIFs/175"
+_CHAT, _MSG_ID = None, None
+_LOGO_ID = None
 
 
-@userge.on_cmd("alive", about={"header": "Just For Fun"}, allow_channels=False)
-async def alive_inline(message: Message):
-    try:
-        if message.client.is_bot:
-            await send_alive_message(message)
-        elif userge.has_bot:
-            try:
-                await send_inline_alive(message)
-            except BadRequest:
-                await send_alive_message(message)
-        else:
-            await send_alive_message(message)
-    except Exception as e_all:
-        await message.err(str(e_all), del_in=10, log=__name__)
+@userge.on_cmd("alive", about={
+    'header': "This command is just for fun"}, allow_channels=False)
+async def alive(message: Message):
+    if not (_CHAT and _MSG_ID):
+        try:
+            _set_data()
+        except Exception as set_err:
+            _LOG.exception("There was some problem while setting Media Data. "
+                           f"trying again... ERROR:: {set_err} ::")
+            _set_data(True)
 
-
-async def send_inline_alive(message: Message) -> None:
-    _bot = await userge.bot.get_me()
-    try:
-        i_res = await userge.get_inline_bot_results(_bot.username, "alive")
-        i_res_id = (
-            (
-                await userge.send_inline_bot_result(
-                    chat_id=message.chat.id,
-                    query_id=i_res.query_id,
-                    result_id=i_res.results[0].id,
-                )
-            )
-            .updates[0]
-            .id
-        )
-    except (Forbidden, BadRequest) as ex:
-        await message.err(str(ex), del_in=5)
-        return
+    alive_text, markup = _get_alive_text_and_markup(message)
+    if _MSG_ID == "text_format":
+        return await message.edit(alive_text, disable_web_page_preview=True, reply_markup=markup)
     await message.delete()
-    await asyncio.sleep(200)
-    await userge.delete_messages(message.chat.id, i_res_id)
+    try:
+        await _send_alive(message, alive_text, markup)
+    except (FileIdInvalid, FileReferenceEmpty, BadRequest):
+        await _refresh_id(message)
+        await _send_alive(message, alive_text, markup)
 
 
-async def send_alive_message(message: Message) -> None:
-    global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA
-    chat_id = message.chat.id
-    client = message.client
-    caption = Bot_Alive.alive_info()
-    if client.is_bot:
-        reply_markup = Bot_Alive.alive_buttons()
-        file_id = _BOT_CACHED_MEDIA
+def _get_mode() -> str:
+    if userge.dual_mode:
+        return "Dual"
+    if Config.BOT_TOKEN:
+        return "Bot"
+    return "User"
+
+
+def _get_alive_text_and_markup(message: Message) -> Tuple[str, Optional[InlineKeyboardMarkup]]:
+    markup = None
+    output = f""" 
+**≧◉◡◉≦  Hey There ≧◉◡◉≦**\n
+**× Uptime** : `{userge.uptime}`
+**× Pm-Guard**: `{_parse_arg(not Config.ALLOW_ALL_PMS)}`
+**× Sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
+**× Owner**: @sanjitsinha
+**× Based on pyrogram**`"""  
+    if Config.HEROKU_APP:
+        output += f"\n• **Dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`"
+    output += f"""
+• **Unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
+    **__Python__**: `{versions.__python_version__}`
+    **__Pyrogram__**: `{versions.__pyro_version__}`"""
+    if not message.client.is_bot:
+        output += f"""\n
+🎖 **{versions.__license__}** | 👥 **{versions.__copyright__}** | 🧪 **[Repo]({Config.UPSTREAM_REPO})**
+"""
     else:
-        reply_markup = None
-        file_id = _USER_CACHED_MEDIA
-        caption += (
-            f"\n⚡️  <a href={Config.UPSTREAM_REPO}><b>REPO</b></a>"
-            "    <code>|</code>    "
-            "👥  <a href='https://t.me/useless_x'><b>SUPPORT</b></a>"
-        )
-    if not Config.ALIVE_MEDIA:
-        await client.send_photo(
-            chat_id,
-            photo=Bot_Alive.alive_default_imgs(),
-            caption=caption,
-            reply_markup=reply_markup,
-        )
-        return
-    url_ = Config.ALIVE_MEDIA.strip()
-    if url_.lower() == "false":
-        await client.send_message(
-            chat_id,
-            caption=caption,
-            reply_markup=reply_markup,
-            disable_web_page_preview=True,
-        )
-    else:
-        type_, media_ = await Bot_Alive.check_media_link(Config.ALIVE_MEDIA)
-        if type_ == "url_gif":
-            await client.send_animation(
-                chat_id,
-                animation=url_,
-                caption=caption,
-                reply_markup=reply_markup,
-            )
-        elif type_ == "url_image":
-            await client.send_photo(
-                chat_id,
-                photo=url_,
-                caption=caption,
-                reply_markup=reply_markup,
-            )
-        elif type_ == "tg_media":
-            try:
-                await client.send_cached_media(
-                    chat_id,
-                    file_id=file_id,
-                    caption=caption,
-                    reply_markup=reply_markup,
-                )
-            except MediaEmpty:
-                if not message.client.is_bot:
-                    try:
-                        refeshed_f_id = get_file_id(
-                            await userge.get_messages(media_[0], media_[1])
-                        )
-                        await userge.send_cached_media(
-                            chat_id,
-                            file_id=refeshed_f_id,
-                            caption=caption,
-                        )
-                    except Exception as u_err:
-                        LOGGER.error(u_err)
-                    else:
-                        _USER_CACHED_MEDIA = refeshed_f_id
-
-
-if userge.has_bot:
-
-    @userge.bot.on_callback_query(filters.regex(pattern=r"^settings_btn$"))
-    async def alive_cb(_, c_q: CallbackQuery):
-        allow = bool(
-            c_q.from_user
-            and (
-                c_q.from_user.id in Config.OWNER_ID
-                or c_q.from_user.id in Config.SUDO_USERS
-            )
-        )
-        if allow:
-            start = datetime.now()
-            try:
-                await c_q.edit_message_text(
-                    Bot_Alive.alive_info(),
-                    reply_markup=Bot_Alive.alive_buttons(),
-                    disable_web_page_preview=True,
-                )
-            except FloodWait as e:
-                await asyncio.sleep(e.x)
-            except BadRequest:
-                pass
-            ping = "𝗣𝗶𝗻𝗴:  🏓  {} sec\n"
-        alive_s = "➕ 𝗘𝘅𝘁𝗿𝗮 𝗣𝗹𝘂𝗴𝗶𝗻𝘀 : {}\n".format(
-            _parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)
-        )
-        alive_s += f"👥 𝗦𝘂𝗱𝗼 : {_parse_arg(Config.SUDO_ENABLED)}\n"
-        alive_s += f"🚨 𝗔𝗻𝘁𝗶𝘀𝗽𝗮𝗺 : {_parse_arg(Config.ANTISPAM_SENTRY)}\n"
-        if Config.HEROKU_APP and Config.RUN_DYNO_SAVER:
-            alive_s += "⛽️ 𝗗𝘆𝗻𝗼 𝗦𝗮𝘃𝗲𝗿 :  ✅ 𝙴𝚗𝚊𝚋𝚕𝚎𝚍\n"
-        alive_s += f"💬 𝗕𝗼𝘁 𝗙𝗼𝗿𝘄𝗮𝗿𝗱𝘀 : {_parse_arg(Config.BOT_FORWARDS)}\n"
-        alive_s += f"🛡 𝗣𝗠 𝗚𝘂𝗮𝗿𝗱 : {_parse_arg(not Config.ALLOW_ALL_PMS)}\n"
-        alive_s += f"📝 𝗣𝗠 𝗟𝗼𝗴𝗴𝗲𝗿 : {_parse_arg(Config.PM_LOGGING)}"
-        if allow:
-            end = datetime.now()
-            m_s = (end - start).microseconds / 1000
-            await c_q.answer(ping.format(m_s) + alive_s, show_alert=True)
-        else:
-            await c_q.answer(alive_s, show_alert=True)
-        await asyncio.sleep(0.5)
+        copy_ = "https://github.com/UsergeTeam/Userge/blob/master/LICENSE"
+        markup = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton(text="👥 UsergeTeam", url="https://github.com/UsergeTeam"),
+                InlineKeyboardButton(text="🧪 Repo", url=Config.UPSTREAM_REPO)
+            ],
+            [InlineKeyboardButton(text="🎖 GNU GPL v3.0", url=copy_)]
+        ])
+    return output, markup
 
 
 def _parse_arg(arg: bool) -> str:
-    return " ✅ 𝙴𝚗𝚊𝚋𝚕𝚎𝚍" if arg else " ❌ 𝙳𝚒𝚜𝚊𝚋𝚕𝚎𝚍"
+    return "enabled" if arg else "disabled"
 
 
-class Bot_Alive:
-    @staticmethod
-    async def check_media_link(media_link: str):
-        match = _ALIVE_REGEX.search(media_link.strip())
-        if not match:
-            return None, None
-        if match.group(1) == "i.imgur.com":
-            link = match.group(0)
-            link_type = "url_gif" if match.group(3) == "gif" else "url_image"
-        elif match.group(1) == "telegra.ph/file":
-            link = match.group(0)
-            link_type = "url_image"
-        else:
-            link_type = "tg_media"
-            if match.group(2) == "c":
-                chat_id = int("-100" + str(match.group(3)))
-                message_id = match.group(4)
-            else:
-                chat_id = match.group(2)
-                message_id = match.group(3)
-            link = [chat_id, int(message_id)]
-        return link_type, link
+async def _send_alive(message: Message,
+                      text: str,
+                      reply_markup: Optional[InlineKeyboardMarkup],
+                      recurs_count: int = 0) -> None:
+    if not _LOGO_ID:
+        await _refresh_id(message)
+    should_mark = None if _IS_STICKER else reply_markup
+    if _IS_TELEGRAPH:
+        await _send_telegraph(message, text, reply_markup)
+    else:
+        try:
+            await message.client.send_cached_media(chat_id=message.chat.id,
+                                                   file_id=_LOGO_ID,
+                                                   caption=text,
+                                                   reply_markup=should_mark)
+            if _IS_STICKER:
+                raise ChatSendMediaForbidden
+        except SlowmodeWait as s_m:
+            await asyncio.sleep(s_m.x)
+            text = f'<b>{str(s_m).replace(" is ", " was ")}</b>\n\n{text}'
+            return await _send_alive(message, text, reply_markup)
+        except MediaEmpty:
+            if recurs_count >= 2:
+                raise ChatSendMediaForbidden
+            await _refresh_id(message)
+            return await _send_alive(message, text, reply_markup, recurs_count + 1)
+        except (ChatSendMediaForbidden, Forbidden):
+            await message.client.send_message(chat_id=message.chat.id,
+                                              text=text,
+                                              disable_web_page_preview=True,
+                                              reply_markup=should_mark)
 
-    @staticmethod
-    def alive_info() -> str:
-        alive_info_ = f"""
-<a href="https://telegram.dog/x_xtests"><b>USERGE-X</a> is Up and Running.</b>
 
-  🐍   <b>Python :</b>    <code>v{versions.__python_version__}</code>
-  🔥   <b>Pyrogram :</b>    <code>v{versions.__pyro_version__}</code>
-  🧬   <b>𝑿 :</b>    <code>v{get_version()}</code>
+async def _refresh_id(message: Message) -> None:
+    global _LOGO_ID, _IS_STICKER  # pylint: disable=global-statement
+    try:
+        media = await message.client.get_messages(_CHAT, _MSG_ID)
+    except (ChannelInvalid, PeerIdInvalid, ValueError):
+        _set_data(True)
+        return await _refresh_id(message)
+    else:
+        if media.sticker:
+            _IS_STICKER = True
+        _LOGO_ID = get_file_id_of_media(media)
 
-<b>{Bot_Alive._get_mode()}</b>    <code>|</code>    🕔  <b>{userge.uptime}</b>
-"""
-        return alive_info_
 
-    @staticmethod
-    def _get_mode() -> str:
-        if RawClient.DUAL_MODE:
-            return "↕️  DUAL"
-        if Config.BOT_TOKEN:
-            return "🤖  BOT"
-        return "👤  USER"
+def _set_data(errored: bool = False) -> None:
+    global _CHAT, _MSG_ID, _IS_TELEGRAPH  # pylint: disable=global-statement
 
-    @staticmethod
-    def alive_buttons() -> InlineKeyboardMarkup:
-        buttons = [
-            [
-                InlineKeyboardButton(text="🔧  SETTINGS", callback_data="settings_btn"),
-                InlineKeyboardButton(text="⚡  REPO", url=Config.UPSTREAM_REPO),
-            ]
-        ]
-        return InlineKeyboardMarkup(buttons)
+    pattern_1 = r"^(http(?:s?):\/\/)?(www\.)?(t.me)(\/c\/(\d+)|:?\/(\w+))?\/(\d+)$"
+    pattern_2 = r"^https://telegra\.ph/file/\w+\.\w+$"
+    if Config.ALIVE_MEDIA and not errored:
+        if Config.ALIVE_MEDIA.lower().strip() == "nothing":
+            _CHAT = "text_format"
+            _MSG_ID = "text_format"
+            return
+        media_link = Config.ALIVE_MEDIA
+        match_1 = re.search(pattern_1, media_link)
+        match_2 = re.search(pattern_2, media_link)
+        if match_1:
+            _MSG_ID = int(match_1.group(7))
+            if match_1.group(5):
+                _CHAT = int("-100" + match_1.group(5))
+            elif match_1.group(6):
+                _CHAT = match_1.group(6)
+        elif match_2:
+            _IS_TELEGRAPH = True
+        elif "|" in Config.ALIVE_MEDIA:
+            _CHAT, _MSG_ID = Config.ALIVE_MEDIA.split("|", maxsplit=1)
+            _CHAT = _CHAT.strip()
+            _MSG_ID = int(_MSG_ID.strip())
+    else:
+        match = re.search(pattern_1, _DEFAULT)
+        _CHAT = match.group(6)
+        _MSG_ID = int(match.group(7))
 
-    @staticmethod
-    def alive_default_imgs() -> str:
-        alive_imgs = [
-            "https://telegra.ph/file/11123ef7dff2f1e19e79d.jpg",
-            "https://i.imgur.com/uzKdTXG.jpg",
-            "https://telegra.ph/file/6ecab390e4974c74c3764.png",
-            "https://telegra.ph/file/995c75983a6c0e4499b55.png",
-            "https://telegra.ph/file/86cc25c78ad667ca5e691.png",
-        ]
-        return rand_array(alive_imgs)
 
-    @staticmethod
-    def get_bot_cached_fid() -> str:
-        return _BOT_CACHED_MEDIA
-
-    @staticmethod
-    def is_photo(file_id: str) -> bool:
-        return bool(FileId.decode(file_id).file_type in PHOTO_TYPES)
+async def _send_telegraph(msg: Message, text: str, reply_markup: Optional[InlineKeyboardMarkup]):
+    path = os.path.join(Config.DOWN_PATH, os.path.split(Config.ALIVE_MEDIA)[1])
+    if not os.path.exists(path):
+        await pool.run_in_thread(wget.download)(Config.ALIVE_MEDIA, path)
+    if path.lower().endswith((".jpg", ".jpeg", ".png", ".bmp")):
+        await msg.client.send_photo(
+            chat_id=msg.chat.id,
+            photo=path,
+            caption=text,
+            reply_markup=reply_markup
+        )
+    elif path.lower().endswith((".mkv", ".mp4", ".webm")):
+        await msg.client.send_video(
+            chat_id=msg.chat.id,
+            video=path,
+            caption=text,
+            reply_markup=reply_markup
+        )
+    else:
+        await msg.client.send_document(
+            chat_id=msg.chat.id,
+            document=path,
+            caption=text,
+            reply_markup=reply_markup
+        )
