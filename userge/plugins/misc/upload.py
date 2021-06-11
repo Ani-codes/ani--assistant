@@ -214,7 +214,7 @@ async def doc_upload(
 ):
     str_path = str(path)
     sent: Message = await message.client.send_message(
-        message.chat.id, f"`Uploading {str_path} as a doc ... {extra}`"
+        message.chat.id, f"Uploading {str_path} as a doc ... {extra}"
     )
     start_t = datetime.now()
     thumb = None
@@ -269,7 +269,7 @@ async def vid_upload(
     if metadata and metadata.has("duration"):
         duration = metadata.get("duration").seconds
     sent: Message = await message.client.send_message(
-        message.chat.id, f"`Uploading {str_path} as a video ... {extra}`"
+        message.chat.id, f"Uploading {str_path} as a video ... {extra}"
     )
     start_t = datetime.now()
     await message.client.send_chat_action(message.chat.id, "upload_video")
@@ -356,7 +356,7 @@ async def audio_upload(
     if metadata and metadata.has("duration"):
         duration = metadata.get("duration").seconds
     sent: Message = await message.client.send_message(
-        message.chat.id, f"`Uploading {str_path} as audio ... {extra}`"
+        message.chat.id, f"Uploading {str_path} as audio ... {extra}"
     )
     start_t = datetime.now()
     await message.client.send_chat_action(message.chat.id, "upload_audio")
@@ -393,7 +393,7 @@ async def audio_upload(
 async def photo_upload(message: Message, path, del_path: bool = False, extra: str = ""):
     str_path = str(path)
     sent: Message = await message.client.send_message(
-        message.chat.id, f"`Uploading {path.name} as photo ... {extra}`"
+        message.chat.id, f"Uploading {path.name} as photo ... {extra}"
     )
     start_t = datetime.now()
     await message.client.send_chat_action(message.chat.id, "upload_photo")
