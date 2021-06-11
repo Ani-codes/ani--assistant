@@ -120,7 +120,7 @@ async def url_download(message: Message, url: str) -> Tuple[str, int]:
 
 async def tg_download(message: Message, to_download: Message) -> Tuple[str, int]:
     """download from tg file"""
-    await message.edit("`Downloading...`")
+    await message.edit("Downloading...")
     start_t = datetime.now()
     custom_file_name = Config.DOWN_PATH
     if message.filtered_input_str:
