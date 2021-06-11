@@ -234,7 +234,7 @@ if userge.has_bot:
                 media=(
                     InputMediaAudio(
                         media=f_id,
-                        caption=f"🎵  <b>[{uploaded_media.caption}]({yt_url})</b>",
+                        caption=f"  <b>[{uploaded_media.caption}]({yt_url})</b>",
                     )
                 ),
             )
@@ -542,7 +542,7 @@ def download_button(vid: str, body: bool = False):
             if bitrrate != 0:
                 audio_dict[
                     bitrrate
-                ] = f"🎵 {bitrrate}Kbps ({humanbytes(fr_size) or 'N/A'})"
+                ] = f" {bitrrate}Kbps ({humanbytes(fr_size) or 'N/A'})"
 
     video_btns = []
     for frmt in qual_list:
