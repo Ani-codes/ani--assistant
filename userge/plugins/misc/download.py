@@ -56,7 +56,7 @@ async def handle_download(
 
 async def url_download(message: Message, url: str) -> Tuple[str, int]:
     """download from link"""
-    await message.edit("Downloading... \n")
+    await message.edit("Downloading... ")
     start_t = datetime.now()
     custom_file_name = unquote_plus(os.path.basename(url))
     if "|" in url:
