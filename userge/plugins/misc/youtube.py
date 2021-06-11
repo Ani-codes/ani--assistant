@@ -225,7 +225,7 @@ if userge.has_bot:
                 media=(
                     InputMediaVideo(
                         media=f_id,
-                        caption=f"📹  <b>[{uploaded_media.caption}]({yt_url})</b>",
+                        caption=f"  <b>[{uploaded_media.caption}]({yt_url})</b>",
                     )
                 ),
             )
@@ -552,7 +552,7 @@ def download_button(vid: str, body: bool = False):
             frmt_size = humanbytes(frmt_dict.get(frmt_id)) or "N/A"
             video_btns.append(
                 InlineKeyboardButton(
-                    f"📹 {frmt} ({frmt_size})",
+                    f" {frmt} ({frmt_size})",
                     callback_data=f"ytdl_download_{vid}_{frmt_id}_v",
                 )
             )
