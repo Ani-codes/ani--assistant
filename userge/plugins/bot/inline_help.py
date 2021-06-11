@@ -15,9 +15,9 @@ HELP_BUTTONS = None
 OwnerFilter = filters.user(list(Config.OWNER_ID))
 
 _COMMANDS = {
-    "secret": {
-        "help_txt": "**Send a secret message to a user**\n (only the entered user and you can view the message)\n\n>>>  `secret @username [text]`",
-        "i_q": "secret @DeletedUser420 This is a secret message",
+    "Admins": {
+        "help_txt": "**Send a secret message to a user**\n\n × /antiflood \n × /fban    \n × /gadmin  \n × /gban",
+
     },
     "troll": {
         "help_txt": "**Troll to a user**\n (everyone can view the message except the entered user)\n\n>>>  `troll @username [text]`",
