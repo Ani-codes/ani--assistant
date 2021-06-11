@@ -41,11 +41,11 @@ async def rename_(message: Message):
     if not message.filtered_input_str:
         await message.err("new name not found!")
         return
-    await message.edit("`Trying to Rename ...`")
+    await message.edit("Renaming... \n")
     if message.reply_to_message and message.reply_to_message.media:
         await _handle_message(message)
     else:
-        await message.edit("Please read `.help rename`", del_in=5)
+        await message.edit("Please read `/help rename`", del_in=5)
 
 
 @userge.on_cmd(
@@ -59,7 +59,7 @@ async def rename_(message: Message):
 )
 async def convert_(message: Message):
     """convert telegram files"""
-    await message.edit("`Trying to Convert ...`")
+    await message.edit("Converting... \n")
     if message.reply_to_message and message.reply_to_message.media:
         message.text = "" if message.reply_to_message.document else ". -d"
         await _handle_message(message)
@@ -85,7 +85,7 @@ async def upload_to_tg(message: Message):
     """upload to telegram"""
     path_ = message.filtered_input_str
     if not path_:
-        await message.edit("invalid input!, check `.help .upload`", del_in=5)
+        await message.edit("invalid input!, check `/help .upload`", del_in=5)
         return
     is_url = re.search(r"(?:https?|ftp)://[^|\s]+\.[^|\s]+", path_)
     del_path = False
