@@ -85,7 +85,7 @@ async def _init() -> None:
 
 
 @userge.on_cmd(
-    "cmd", about={"header": "Guide to use USERGE commands"}, allow_channels=False
+    "help", about={"header": "Guide to use USERGE commands"}, allow_channels=False
 )
 async def helpme(message: Message) -> None:
     plugins = userge.manager.enabled_plugins
@@ -104,7 +104,7 @@ async def helpme(message: Message) -> None:
                 + "</code>\n\n"
             )
         out_str += (
-            f"""✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}cmd [plugin_name]</code>"""
+            f"""✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [plugin_name]</code>"""
         )
     else:
         key = message.input_str
@@ -127,7 +127,7 @@ async def helpme(message: Message) -> None:
                     f"   ➥ <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
                     f"   ➥ <b>info:</b>  <i>{cmd.doc}</i>\n\n"
                 )
-            out_str += f""" ✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}cmd [command_name]</code>"""
+            out_str += f""" ✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [command_name]</code>"""
         else:
             commands = userge.manager.enabled_commands
             key = key.lstrip(Config.CMD_TRIGGER)
@@ -850,7 +850,7 @@ if userge.has_bot:
                             input_message_content=InputTextMessageContent(
                                 "No Spoiler Found !\nLet's Add Some"
                             ),
-                            description="See .cmd spoiler for more info",
+                            description="See .help spoiler for more info",
                         )
                     )
                 else:
