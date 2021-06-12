@@ -166,7 +166,7 @@ if userge.has_bot:
     def default_owner_start(from_user):
         start_msg = f"Hello Master **{from_user.flname}** !\n"
         btns = [
-            [InlineKeyboardButton("➕  ADD TO GROUP", callback_data="add_to_grp")],
+            [InlineKeyboardButton(" ADD TO GROUP", callback_data="add_to_grp")],
         ]
         return start_msg, btns
 
