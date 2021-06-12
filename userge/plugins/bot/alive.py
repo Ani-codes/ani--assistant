@@ -227,10 +227,11 @@ class Bot_Alive:
     @staticmethod
     def alive_info() -> str:
         alive_info_ = f"""
-<a href="https://telegram.dog/x_xtests"><b>USERGE-X</a> is Up and Running.</b>
-  🐍   <b>Python :</b>    <code>v{versions.__python_version__}</code>
-  🔥   <b>Pyrogram :</b>    <code>v{versions.__pyro_version__}</code>
-  🧬   <b>𝑿 :</b>    <code>v{get_version()}</code>
+<b>≧◉◡◉≦ Ani-Assistant is Up and Running. ≧◉◡◉≦</b>
+
+  <b>× Python version :</b>    <code>v{versions.__python_version__}</code>
+  <b>× Pyrogram vsersion :</b>    <code>v{versions.__pyro_version__}</code>
+  <b>× Bot version :</b>    <code>v{get_version()}</code>
 <b>{Bot_Alive._get_mode()}</b>    <code>|</code>    🕔  <b>{userge.uptime}</b>
 """
         return alive_info_
@@ -238,9 +239,9 @@ class Bot_Alive:
     @staticmethod
     def _get_mode() -> str:
         if RawClient.DUAL_MODE:
-            return "↕️  DUAL"
+            return "× DUAL"
         if Config.BOT_TOKEN:
-            return "🤖  BOT"
+            return "× Bot Uptime :
         return "👤  USER"
 
     @staticmethod
