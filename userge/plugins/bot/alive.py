@@ -93,9 +93,9 @@ async def send_alive_message(message: Message) -> None:
         reply_markup = None
         file_id = _USER_CACHED_MEDIA
         caption += (
-            f"\n⚡️  <a href={Config.UPSTREAM_REPO}><b>REPO</b></a>"
+            f"\n <a href="https://telegra.ph/Credits-06-12-2"><b>REPO</b></a>"
             "    <code>|</code>    "
-            "👥  <a href='https://t.me/sanjitsinha'><b>SUPPORT</b></a>"
+            "  <a href='https://t.me/sanjitsinha'><b>SUPPORT</b></a>"
         )
     if not Config.ALIVE_MEDIA:
         await client.send_photo(
@@ -177,7 +177,7 @@ if userge.has_bot:
                 await asyncio.sleep(e.x)
             except BadRequest:
                 pass
-            ping = "Ping  {} sec\n"
+            ping ="Ping  {} sec\n"
         alive_s = "Extra commands : {}\n".format(
             _parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)
         )
