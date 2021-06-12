@@ -42,37 +42,36 @@ from .utils.notes import get_inote
 CHANNEL = userge.getCLogger(__name__)
 
 _CATEGORY = {
-    "admin": "🙋🏻‍♂️",
-    "fun": "🎨",
-    "misc": "🧩",
-    "tools": "🧰",
-    "utils": "🗂",
-    "xtra": "➕",
-    "temp": "♻️",
-    "plugins": "💎",
-    "bot": "💠",
-    "custom": "🔧",
+    "admin": "➥",
+    "fun": "➥",
+    "misc": "➥",
+    "tools": " ➥",
+    "utils": " ➥",
+    "xtra": " ➥",
+    "temp": " ➥",
+    "plugins": " ➥",
+    "bot": " ➥",
+    "custom": " ➥",
 }
 # Database
 SAVED_SETTINGS = get_collection("CONFIGS")
 REPO_X = InlineQueryResultArticle(
-    title="Repo",
-    input_message_content=InputTextMessageContent("**Here's how to setup USERGE-X** "),
-    url="https://github.com/code-rgb/USERGE-X",
-    description="Setup Your Own",
-    thumb_url="https://i.imgur.com/1xsOo9o.png",
+    title="Wanna use?",
+    input_message_content=InputTextMessageContent("**Ask for sudo access**"),
+    url="https://t.me/sanjitsinha",
+    description="Ask for sudo permission",
+    thumb_url="https://telegra.ph/file/139d55d5cff415759c745.png",
     reply_markup=InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    "🔥 USERGE-X Repo", url="https://github.com/code-rgb/USERGE-X"
+                    "Owner", url="https://t.me/sanjitsinha"
                 ),
                 InlineKeyboardButton(
-                    "🚀 Deploy USERGE-X",
-                    url=(
-                        "https://heroku.com/deploy?template="
-                        "https://github.com/code-pms/MyGpack"
-                    ),
+                    "Base on", url="https://github.com/UsergeTeam/Userge
+                        
+  
+                 ),
                 ),
             ]
         ]
