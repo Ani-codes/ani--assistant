@@ -180,22 +180,21 @@ if userge.has_bot:
             start_msg, btns = default_owner_start(from_user)
         else:
             start_msg = f"""
-Hello 👋 {from_user.fname},
-Nice To Meet You !, I'm <b>{bot_.fname}</b> A Bot.
-        <b><i>Powered by</i> [USERGE-X](https://t.me/x_xtests)
-My Master is : {owner_.flname}</b>
+<b> Hello ≧◉◡◉≦  {from_user.fname},
+ Nice To Meet You !, I'm {bot_.fname} .
+ My owner is : {owner_.flname} </b>
 """
             if Config.BOT_FORWARDS:
-                start_msg += "<b>\n📌 NOTE:</b>\nYou can 📨 <b>Send Message</b> here to contact my <b>Master.</b>"
+                start_msg += "<b>\n NOTE:</b>\nYou can Send Message here to contact my Master."
             contact_url = (
-                f"https://t.me/{owner_.uname}"
+                f"https://t.me/sanjitsinha"
                 if owner_.uname
                 else f"tg://user?id={owner_.id}"
             )
             btns = [
                 [
-                    InlineKeyboardButton("👤  CONTACT", url=contact_url),
-                    InlineKeyboardButton("⭐️  REPO", url=Config.UPSTREAM_REPO),
+                    InlineKeyboardButton("  CONTACT", url="https://t.me/sanjitsinha"
+                    InlineKeyboardButton("⭐️  REPO", url="https://telegra.ph/Credits-06-12-2"
                 ]
             ]
         try:
@@ -212,11 +211,11 @@ My Master is : {owner_.flname}</b>
     @check_owner
     async def add_to_grp(c_q: CallbackQuery):
         await c_q.answer()
-        msg = "<b>🤖 Add Your Bot to Group</b> \n\n📌 **NOTE:**\n<i>Admin Privilege Required !</i>"
+        msg = "<b> Add Your Bot to Group</b> \n\n  **NOTE:**\n<i>Admin Privilege Required !</i>"
         add_bot = f"http://t.me/{(await get_bot_info())['bot'].uname}?startgroup=start"
         buttons = InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton("➕ PRESS TO ADD", url=add_bot)],
+                [InlineKeyboardButton(" RESS TO ADD", url=add_bot)],
                 [InlineKeyboardButton("BACK", callback_data="back_bot_pm")],
             ]
         )
@@ -239,10 +238,10 @@ My Master is : {owner_.flname}</b>
             [
                 [
                     InlineKeyboardButton(
-                        "🚫  BAN", callback_data=f"bot_pm_ban_{user_.id}"
+                        "BAN", callback_data=f"bot_pm_ban_{user_.id}"
                     ),
                     InlineKeyboardButton(
-                        "➖ Bot Antiflood [OFF]",
+                        "Bot Antiflood [OFF]",
                         callback_data="toggle_bot-antiflood_off",
                     ),
                 ]
@@ -261,7 +260,7 @@ My Master is : {owner_.flname}</b>
             "\n\n"
             f"  ID: <code>{user_.id}</code>\n"
             f"  Name: {user_.flname}\n"
-            f"  👤 User: {user_.mention}"
+            f"  User: {user_.mention}"
             f"\n\n**Is spamming your bot !** ->  [ Flood rate **({flood_count})** ]\n"
             "__Quick Action__: Ignored from bot for a while."
         )
@@ -271,7 +270,7 @@ My Master is : {owner_.flname}</b>
                 if user_.id in Config.SUDO_USERS:
                     sudo_spam = (
                         f"**Sudo User** {user_.mention}:\n  ID: {user_.id}\n\n"
-                        "Is Flooding your bot !, Check `.help delsudo` to remove the user from Sudo."
+                        "Is Flooding your bot !, "
                     )
                     await userge.bot.send_message(Config.LOG_CHANNEL_ID, sudo_spam)
                 else:
@@ -303,7 +302,7 @@ My Master is : {owner_.flname}</b>
             try:
                 await userge.bot.send_message(
                     Config.OWNER_ID[0],
-                    f"⚠️  **[Bot Flood Warning !]({fa_msg.link})**",
+                    f" **[Bot Flood Warning !]({fa_msg.link})**",
                 )
             except UserIsBlocked:
                 await CHANNEL.log("**Unblock your bot !**")
