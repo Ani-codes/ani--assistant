@@ -57,7 +57,7 @@ _CATEGORY = {
 SAVED_SETTINGS = get_collection("CONFIGS")
 REPO_X = InlineQueryResultArticle(
     title="Wanna use?",
-    input_message_content=InputTextMessageContent("**Ask for sudo access**"),
+    input_message_content=InputTextMessageContent("**Ask for sudo access to use**"),
     url="https://t.me/sanjitsinha",
     description="Ask for sudo permission",
     thumb_url="https://telegra.ph/file/139d55d5cff415759c745.png",
@@ -68,7 +68,7 @@ REPO_X = InlineQueryResultArticle(
                     "Owner", url="https://t.me/sanjitsinha"
                 ),
                 InlineKeyboardButton(
-                    "Base on", url="https://github.com/UsergeTeam/Userge"
+                    "Based on", url="https://github.com/UsergeTeam/Userge"
                
                  
                 ),
@@ -91,7 +91,7 @@ async def helpme(message: Message) -> None:
     plugins = userge.manager.enabled_plugins
     if not message.input_str:
         out_str = (
-            f"""🔒<b><u>(<code>{len(plugins)}</code>) Plugin  Available To use</u></b>🔒\n\n"""
+            f"""🔒  <b><u>(<code>{len(plugins)}</code>) Plugin  Available To use</u></b>  🔒\n\n"""
         )
         cat_plugins = userge.manager.get_plugins()
         for cat in sorted(cat_plugins):
@@ -104,7 +104,7 @@ async def helpme(message: Message) -> None:
                 + "</code>\n\n"
             )
         out_str += (
-            f"""➠<b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [plugin_name]</code>"""
+            f"""✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [plugin_name]</code>"""
         )
     else:
         key = message.input_str
@@ -127,7 +127,7 @@ async def helpme(message: Message) -> None:
                     f"   ➥ <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
                     f"   ➥ <b>info:</b>  <i>{cmd.doc}</i>\n\n"
                 )
-            out_str += f"""📕 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [command_name]</code>"""
+            out_str += f""" ✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [command_name]</code>"""
         else:
             commands = userge.manager.enabled_commands
             key = key.lstrip(Config.CMD_TRIGGER)
@@ -192,7 +192,7 @@ if userge.has_bot:
             buttons = parse_buttons(
                 p_num,
                 cur_pos,
-                lambda x: f"🔹 {x}",
+                lambda x: f"{x}",
                 userge.manager.get_all_plugins()[pos_list[-1]],
             )
         elif len(pos_list) == 3:
@@ -210,7 +210,7 @@ if userge.has_bot:
             await callback_query.answer("you are in main menu", show_alert=True)
             return
         if len(pos_list) == 2:
-            text = " 𝐔𝐒𝐄𝐑𝐆𝐄-𝐗  𝗠𝗔𝗜𝗡 𝗠𝗘𝗡𝗨"
+            text = "Main Menu"
             buttons = main_menu_buttons()
         elif len(pos_list) == 3:
             text, buttons = category_data(cur_pos)
