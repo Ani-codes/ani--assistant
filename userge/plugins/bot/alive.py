@@ -259,8 +259,8 @@ class Bot_Alive:
     def alive_default_imgs() -> str:
         alive_imgs = [
             "https://telegra.ph/file/ea8ad909c70f58003fbe6.mp4",
-            "https://telegra.ph/file/1cb6af6153bc8803bfa25.mp4",
             "https://telegra.ph/file/706838237b5e93eaae127.mp4",
+            "https://telegra.ph/file/12817040da6bd9d1cfa47.gif",
             "https://telegra.ph/file/a94dc13956437edb2103f.jpg",
            
         ]
