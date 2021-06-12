@@ -76,8 +76,6 @@ async def google_rs(message: Message):
         ms = (end - start).seconds
         out_str = f"""{img_size}
 <b>➠ Possible Related Search</b>: <a href="{prs_url}">{prs_text}</a>
-
 <b>➠ More Info</b>: Open this <a href="{the_location}">Link</a>
-
 <b>➠ Time Taken</b>: {ms} seconds"""
     await message.edit(out_str, parse_mode="HTML", disable_web_page_preview=True)
