@@ -93,7 +93,7 @@ async def send_alive_message(message: Message) -> None:
         reply_markup = None
         file_id = _USER_CACHED_MEDIA
         caption += (
-            f"\n <a href="https://telegra.ph/Credits-06-12-2"><b>REPO</b></a>"
+            f"\n <a href={https://telegra.ph/Credits-06-12-2}><b>Credits</b></a>"
             "    <code>|</code>    "
             "  <a href='https://t.me/sanjitsinha'><b>SUPPORT</b></a>"
         )
