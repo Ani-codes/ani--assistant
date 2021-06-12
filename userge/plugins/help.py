@@ -69,9 +69,8 @@ REPO_X = InlineQueryResultArticle(
                 ),
                 InlineKeyboardButton(
                     "Base on", url="https://github.com/UsergeTeam/Userge"
-                        
-  
-                 ),
+               
+                 
                 ),
             ]
         ]
@@ -125,8 +124,8 @@ async def helpme(message: Message) -> None:
 📘 <b>Doc:</b>  <code>{plugins[key].doc}</code>\n\n"""
             for i, cmd in enumerate(commands, start=1):
                 out_str += (
-                    f"    🤖 <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
-                    f"    📚 <b>info:</b>  <i>{cmd.doc}</i>\n\n"
+                    f"   ➥ <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
+                    f"   ➥ <b>info:</b>  <i>{cmd.doc}</i>\n\n"
                 )
             out_str += f"""📕 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [command_name]</code>"""
         else:
@@ -157,10 +156,10 @@ if userge.has_bot:
                 try:
                     await func(c_q)
                 except MessageNotModified:
-                    await c_q.answer("Nothing Found to Refresh 🤷‍♂️", show_alert=True)
+                    await c_q.answer("Nothing Found to Refresh", show_alert=True)
                 except MessageIdInvalid:
                     await c_q.answer(
-                        "Sorry, I Don't Have Permissions to edit this 😔",
+                        "Sorry, I Don't Have Permissions to edit this",
                         show_alert=True,
                     )
             else:
