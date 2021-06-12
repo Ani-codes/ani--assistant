@@ -262,7 +262,7 @@ if userge.has_bot:
     @check_owner
     async def callback_mm(callback_query: CallbackQuery):
         await callback_query.edit_message_text(
-            " 𝐔𝐒𝐄𝐑𝐆𝐄-𝐗  𝗠𝗔𝗜𝗡 𝗠𝗘𝗡𝗨 ",
+            " Ani-Assistant Main menu ",
             reply_markup=InlineKeyboardMarkup(main_menu_buttons()),
         )
 
@@ -354,17 +354,17 @@ if userge.has_bot:
                 )
             )
             if len(cur_pos.split("|")) > 2:
-                tmp_btns.append(InlineKeyboardButton("🖥 Main Menu", callback_data="mm"))
+                tmp_btns.append(InlineKeyboardButton(" Main Menu", callback_data="mm"))
                 tmp_btns.append(
                     InlineKeyboardButton(
                         "🔄 Refresh", callback_data=f"refresh({cur_pos})".encode()
                     )
                 )
         else:
-            cur_clnt = "👤 USER" if Config.USE_USER_FOR_CLIENT_CHECKS else "⚙️ BOT"
+            cur_clnt = "USER" if Config.USE_USER_FOR_CLIENT_CHECKS else " BOT"
             tmp_btns.append(
                 InlineKeyboardButton(
-                    f"🔩 Client for Checks and Sudos : {cur_clnt}",
+                    f" Client for Checks and Sudos : {cur_clnt}",
                     callback_data="chgclnt",
                 )
             )
@@ -377,34 +377,34 @@ if userge.has_bot:
             f"**(`{len(plugins)}`) Plugin(s) Under : "
             f"`{_CATEGORY.get(pos_list[1], '📁')} {pos_list[1]}`  Category**"
         )
-        buttons = parse_buttons(0, "|".join(pos_list[:2]), lambda x: f"🔹 {x}", plugins)
+        buttons = parse_buttons(0, "|".join(pos_list[:2]), lambda x: f" {x}", plugins)
         return text, buttons
 
     def plugin_data(cur_pos: str, p_num: int = 0):
         pos_list = cur_pos.split("|")
         plg = userge.manager.plugins[pos_list[2]]
-        text = f"""🔹 <u><b>Plugin Status<b></u> 🔹
+        text = f""" <u><b>Plugin Status<b></u>
 
-🎭 **Category** : `{pos_list[1]}`
-🔖 **Name** : `{plg.name}`
-📝 **Doc** : `{plg.doc}`
-◾️ **Commands** : `{len(plg.commands)}`
-⚖ **Filters** : `{len(plg.filters)}`
-✅ **Loaded** : `{plg.is_loaded}`
-➕ **Enabled** : `{plg.is_enabled}`
+ **Category** : `{pos_list[1]}`
+ **Name** : `{plg.name}`
+ **Doc** : `{plg.doc}`
+ **Commands** : `{len(plg.commands)}`
+ **Filters** : `{len(plg.filters)}`
+ **Loaded** : `{plg.is_loaded}`
+ **Enabled** : `{plg.is_enabled}`
 """
         tmp_btns = []
         if plg.is_loaded:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "❎ Unload",
+                    " Unload",
                     callback_data=f"unload({'|'.join(pos_list[:3])})".encode(),
                 )
             )
         else:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "✅ Load", callback_data=f"load({'|'.join(pos_list[:3])})".encode()
+                    " Load", callback_data=f"load({'|'.join(pos_list[:3])})".encode()
                 )
             )
         if plg.is_enabled:
@@ -436,18 +436,18 @@ if userge.has_bot:
         flts = {flt.name: flt for flt in plg.commands + plg.filters}
         flt = flts[pos_list[-1]]
         flt_data = f"""
-🔖 **Name** : `{flt.name}`
-📝 **Doc** : `{flt.doc}`
-🤖 **Via Bot** : `{flt.allow_via_bot}`
-✅ **Loaded** : `{flt.is_loaded}`
-➕ **Enabled** : `{flt.is_enabled}`"""
+ **Name** : `{flt.name}`
+ **Doc** : `{flt.doc}`
+ **Via Bot** : `{flt.allow_via_bot}`
+ **Loaded** : `{flt.is_loaded}`
+ **Enabled** : `{flt.is_enabled}`"""
         if hasattr(flt, "about"):
             text = f"""<b><u>Command Status</u></b>
 {flt_data}
 {flt.about}
 """
         else:
-            text = f"""⚖ <b><u>Filter Status</u></b> ⚖
+            text = f""" <b><u>Filter Status</u></b> 
 {flt_data}
 """
         buttons = default_buttons(cur_pos)
@@ -455,13 +455,13 @@ if userge.has_bot:
         if flt.is_loaded:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "❎ Unload", callback_data=f"unload({cur_pos})".encode()
+                    " Unload", callback_data=f"unload({cur_pos})".encode()
                 )
             )
         else:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "✅ Load", callback_data=f"load({cur_pos})".encode()
+                    " Load", callback_data=f"load({cur_pos})".encode()
                 )
             )
         if flt.is_enabled:
@@ -580,7 +580,7 @@ if userge.has_bot:
                                 upvote = post["ups"]
                                 captionx = f"<b>{title}</b>\n"
                                 captionx += f"`Posted by u/{author}`\n"
-                                captionx += f"↕️ <code>{upvote}</code>\n"
+                                captionx += f" <code>{upvote}</code>\n"
                                 thumbnail = reddit_thumb_link(post["preview"])
                                 if post["spoiler"]:
                                     captionx += "⚠️ Post marked as SPOILER\n"
@@ -778,14 +778,14 @@ if userge.has_bot:
                         )
                 except ValueError:
                     return
-                info = f"📱 **Device**: {r['fullname']}\n"
-                info += f"👤 **Maintainer**: {r['maintainer']['name']}\n\n"
-                recovery = f"🦊 <code>{s['file_name']}</code>\n"
-                recovery += f"📅 {s['date']}\n"
-                recovery += f"ℹ️ **Version:** {s['version']}\n"
-                recovery += f"📌 **Build Type:** {s['build_type']}\n"
-                recovery += f"🔰 **Size:** {s['size_human']}\n\n"
-                recovery += "📍 **Changelog:**\n"
+                info = f" **Device**: {r['fullname']}\n"
+                info += f" **Maintainer**: {r['maintainer']['name']}\n\n"
+                recovery = f" <code>{s['file_name']}</code>\n"
+                recovery += f" {s['date']}\n"
+                recovery += f" **Version:** {s['version']}\n"
+                recovery += f" **Build Type:** {s['build_type']}\n"
+                recovery += f" **Size:** {s['size_human']}\n\n"
+                recovery += " **Changelog:**\n"
                 recovery += f"<code>{s['changelog']}</code>\n\n"
                 msg = info
                 msg += recovery
@@ -851,7 +851,7 @@ if userge.has_bot:
                         InlineQueryResultArticle(
                             title="No Spoiler Found",
                             input_message_content=InputTextMessageContent(
-                                "No Spoiler Found !\nLet's Add Some 😈"
+                                "No Spoiler Found !\nLet's Add Some"
                             ),
                             description="See .help spoiler for more info",
                         )
@@ -1060,9 +1060,9 @@ if userge.has_bot:
                     thumb_img = "https://i.imgur.com/c5pZebC.png"
                 else:
                     c_data = f"troll_{key_}"
-                    i_m_content = f"😈 Only <b>{r_name}</b> can't view this message. UwU"
+                    i_m_content = f" Only <b>{r_name}</b> can't view this message. UwU"
                     i_l_des = f"Message Hidden from {r_name}"
-                    title = "😈 Troll"
+                    title = " Troll"
                     thumb_img = "https://i.imgur.com/0vg5B0A.png"
                 buttons = [[InlineKeyboardButton("🔐  SHOW", callback_data=c_data)]]
                 results.append(
@@ -1136,7 +1136,7 @@ if userge.has_bot:
 
             MAIN_MENU = InlineQueryResultArticle(
                 title="Main Menu",
-                input_message_content=InputTextMessageContent(" 𝐔𝐒𝐄𝐑𝐆𝐄-𝐗  𝗠𝗔𝗜𝗡 𝗠𝗘𝗡𝗨 "),
+                input_message_content=InputTextMessageContent(" Ani-Assistant Main menu "),
                 url="https://github.com/code-rgb/USERGE-X",
                 description="Userge-X Main Menu",
                 thumb_url="https://i.imgur.com/1xsOo9o.png",
