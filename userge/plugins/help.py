@@ -42,7 +42,7 @@ async def _init() -> None:
         Config.USE_USER_FOR_CLIENT_CHECKS = bool(data['is_user'])
 
 
-@userge.on_cmd("help", about={'header': "Guide to use USERGE commands"}, allow_channels=False)
+@userge.on_cmd("command", about={'header': "Guide to use USERGE commands"}, allow_channels=False)
 async def helpme(message: Message) -> None:  # pylint: disable=missing-function-docstring
     plugins = userge.manager.enabled_plugins
     if not message.input_str:
@@ -54,7 +54,7 @@ async def helpme(message: Message) -> None:  # pylint: disable=missing-function-
             out_str += (f"    {_CATEGORY.get(cat, '📁')} <b>{cat}</b> "
                         f"(<code>{len(cat_plugins[cat])}</code>) :   <code>"
                         + "</code>    <code>".join(sorted(cat_plugins[cat])) + "</code>\n\n")
-        out_str += f"""✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [plugin_name]</code>"""
+        out_str += f"""✘ <b>Usage:</b>  <code>{Config.CMD_TRIGGER}command [plugin_name]</code>"""
     else:
         key = message.input_str
         if (not key.startswith(Config.CMD_TRIGGER)
@@ -69,7 +69,7 @@ async def helpme(message: Message) -> None:  # pylint: disable=missing-function-
             for i, cmd in enumerate(commands, start=1):
                 out_str += (f"  ➥ <b>command(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
                             f"  ➥ <b>info:</b>  <i>{cmd.doc}</i>\n\n")
-            out_str += f"""📂 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [command_name]</code>"""
+            out_str += f"""📂 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}command [command_name]</code>"""
         else:
             commands = userge.manager.enabled_commands
             key = key.lstrip(Config.CMD_TRIGGER)
