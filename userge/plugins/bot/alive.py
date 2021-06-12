@@ -241,7 +241,7 @@ class Bot_Alive:
         if RawClient.DUAL_MODE:
             return "× DUAL"
         if Config.BOT_TOKEN:
-            return "× Bot Uptime :
+            return "× Bot Uptime:"
         return "👤  USER"
 
     @staticmethod
