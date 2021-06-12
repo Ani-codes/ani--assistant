@@ -181,8 +181,8 @@ if userge.has_bot:
         else:
             start_msg = f"""
 <b> Hello ≧◉◡◉≦  {from_user.fname},
- Nice To Meet You !, I'm {bot_.fname} .
- My owner is : {owner_.flname} </b>
+    Nice To Meet You !, I'm {bot_.fname} .
+    My owner is : @sanjitsinha </b>
 """
             if Config.BOT_FORWARDS:
                 start_msg += "<b>\n NOTE:</b>\nYou can Send Message here to contact my Master."
@@ -194,7 +194,7 @@ if userge.has_bot:
             btns = [
                 [
                     InlineKeyboardButton("  CONTACT", url= "https://t.me/sanjitsinha" ),
-                    InlineKeyboardButton("  REPO", url= "https://telegra.ph/Credits-06-12-2" ),
+                    InlineKeyboardButton("  Credits", url= "https://telegra.ph/Credits-06-12-2" ),
                 ]
             ]
         try:
@@ -211,7 +211,7 @@ if userge.has_bot:
     @check_owner
     async def add_to_grp(c_q: CallbackQuery):
         await c_q.answer()
-        msg = "<b> Add Your Bot to Group</b> \n\n  **NOTE:**\n<i>Admin Privilege Required !</i>"
+        msg = "<b> Add Your Bot to Group</b> \n\n  **× NOTE:**\n Admin Privilege Required !"
         add_bot = f"http://t.me/{(await get_bot_info())['bot'].uname}?startgroup=start"
         buttons = InlineKeyboardMarkup(
             [
