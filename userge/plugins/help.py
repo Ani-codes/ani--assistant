@@ -121,7 +121,7 @@ async def helpme(message: Message) -> None:
             out_str = f"""<b><u>(<code>{len(commands)}</code>) Command(s) Available</u></b>
 
 🔧 <b>Plugin:</b>  <code>{key}</code>
-📘 <b>Doc:</b>  <code>{plugins[key].doc}</code>\n\n"""
+📂 <b>Doc:</b>  <code>{plugins[key].doc}</code>\n\n"""
             for i, cmd in enumerate(commands, start=1):
                 out_str += (
                     f"   ➥ <b>cmd(<code>{i}</code>):</b>  <code>{cmd.name}</code>\n"
