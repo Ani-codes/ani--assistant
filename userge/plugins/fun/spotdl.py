@@ -27,7 +27,7 @@ async def download_track(url: Union[str, SongObj]) -> Path:
 
 
 @userge.on_cmd(
-    "spotdl",
+    "stdl",
     about={
         "header": "Spotify Track Downloader",
         "description": "Download Songs via Spotify Links",
