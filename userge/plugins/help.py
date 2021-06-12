@@ -42,7 +42,7 @@ from .utils.notes import get_inote
 CHANNEL = userge.getCLogger(__name__)
 
 _CATEGORY = {
-    "admin": "➥",
+    "admin": "",
     "fun": "➥",
     "misc": "➥",
     "tools": " ➥",
