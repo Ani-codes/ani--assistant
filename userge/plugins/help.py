@@ -68,7 +68,7 @@ REPO_X = InlineQueryResultArticle(
                     "Owner", url="https://t.me/sanjitsinha"
                 ),
                 InlineKeyboardButton(
-                    "Base on", url="https://github.com/UsergeTeam/Userge
+                    "Base on", url="https://github.com/UsergeTeam/Userge"
                         
   
                  ),
@@ -92,7 +92,7 @@ async def helpme(message: Message) -> None:
     plugins = userge.manager.enabled_plugins
     if not message.input_str:
         out_str = (
-            f"""⚒ <b><u>(<code>{len(plugins)}</code>) Plugin(s) Available</u></b>\n\n"""
+            f"""🔒<b><u>(<code>{len(plugins)}</code>) Plugin  Available To use</u></b>🔒\n\n"""
         )
         cat_plugins = userge.manager.get_plugins()
         for cat in sorted(cat_plugins):
@@ -105,7 +105,7 @@ async def helpme(message: Message) -> None:
                 + "</code>\n\n"
             )
         out_str += (
-            f"""📕 <b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [plugin_name]</code>"""
+            f"""➠<b>Usage:</b>  <code>{Config.CMD_TRIGGER}help [plugin_name]</code>"""
         )
     else:
         key = message.input_str
