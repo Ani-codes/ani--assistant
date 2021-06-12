@@ -68,7 +68,7 @@ REPO_X = InlineQueryResultArticle(
                     "Owner", url="https://t.me/sanjitsinha"
                 ),
                 InlineKeyboardButton(
-                    "Based on", url="https://github.com/UsergeTeam/Userge"
+                    "Based on", url="https://telegra.ph/Credits-06-12-2"
                
                  
                 ),
