@@ -19,7 +19,7 @@ from pyrogram.errors import (
 )
 
 from userge.core.ext import pool
-from userge.utils import  get_file_id
+from userge.utils import get_file_id
 from userge import userge, Message, Config, versions, get_version, logging
 
 _LOG = logging.getLogger(__name__)
@@ -27,7 +27,7 @@ _LOG = logging.getLogger(__name__)
 _IS_TELEGRAPH = False
 _IS_STICKER = False
 
-_DEFAULT = "https://t.me/JoinAnimeGIFs/175"
+_DEFAULT = "https://t.me/theUserge/31"
 _CHAT, _MSG_ID = None, None
 _LOGO_ID = None
 
@@ -64,19 +64,19 @@ def _get_mode() -> str:
 
 def _get_alive_text_and_markup(message: Message) -> Tuple[str, Optional[InlineKeyboardMarkup]]:
     markup = None
-    output = f""" 
-**≧◉◡◉≦  Hey There ≧◉◡◉≦**\n
-**× Uptime** : `{userge.uptime}`
-**× Pm-Guard**: `{_parse_arg(not Config.ALLOW_ALL_PMS)}`
-**× Sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
-**× Owner**: @sanjitsinha
-**× Based on pyrogram**`"""  
+    output = f"""
+**⏱ Uptime** : `{userge.uptime}`
+**💡 Version** : `{get_version()}`
+**⚙️ Mode** : `{_get_mode().upper()}`
+• **Sudo**: `{_parse_arg(Config.SUDO_ENABLED)}`
+• **Pm-Guard**: `{_parse_arg(not Config.ALLOW_ALL_PMS)}`
+• **Anti-Spam**: `{_parse_arg(Config.ANTISPAM_SENTRY)}`"""
     if Config.HEROKU_APP:
-        output += f"\n• **Dyno-saver**: {_parse_arg(Config.RUN_DYNO_SAVER)}"
+        output += f"\n• **Dyno-saver**: `{_parse_arg(Config.RUN_DYNO_SAVER)}`"
     output += f"""
-**× Unofficial**: {_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}
-**× __Python__**: {versions.__python_version__}
-**× __Pyrogram__**: {versions.__pyro_version__}"""
+• **Unofficial**: `{_parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)}`
+    **__Python__**: `{versions.__python_version__}`
+    **__Pyrogram__**: `{versions.__pyro_version__}`"""
     if not message.client.is_bot:
         output += f"""\n
 🎖 **{versions.__license__}** | 👥 **{versions.__copyright__}** | 🧪 **[Repo]({Config.UPSTREAM_REPO})**
@@ -140,7 +140,7 @@ async def _refresh_id(message: Message) -> None:
     else:
         if media.sticker:
             _IS_STICKER = True
-        _LOGO_ID = get_file_id(media)
+        _LOGO_ID = get_file_id_of(media)
 
 
 def _set_data(errored: bool = False) -> None:
