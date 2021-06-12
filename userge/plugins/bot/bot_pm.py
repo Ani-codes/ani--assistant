@@ -193,8 +193,8 @@ if userge.has_bot:
             )
             btns = [
                 [
-                    InlineKeyboardButton("  CONTACT", url="https://t.me/sanjitsinha" ),
-                    InlineKeyboardButton("  REPO", url=https://telegra.ph/Credits-06-12-2" ),
+                    InlineKeyboardButton("  CONTACT", url= "https://t.me/sanjitsinha" ),
+                    InlineKeyboardButton("  REPO", url= "https://telegra.ph/Credits-06-12-2" ),
                 ]
             ]
         try:
