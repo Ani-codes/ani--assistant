@@ -434,9 +434,7 @@ if userge.has_bot:
         flt = flts[pos_list[-1]]
         flt_data = f"""
  **Name** : `{flt.name}`
- **Doc** : `{flt.doc}`
  **Via Bot** : `{flt.allow_via_bot}`
- **Loaded** : `{flt.is_loaded}`
  **Enabled** : `{flt.is_enabled}`"""
         if hasattr(flt, "about"):
             text = f"""<b><u>Command Status</u></b>
