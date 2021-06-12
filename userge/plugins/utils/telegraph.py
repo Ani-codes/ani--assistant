@@ -9,14 +9,14 @@ _T_LIMIT = 5242880
 
 
 @userge.on_cmd(
-    "telegraph",
+    "tgm",
     about={
         "header": "Upload file to Telegra.ph's servers",
         "types": [".jpg", ".jpeg", ".png", ".gif", ".mp4"],
         "usage": "reply {tr}telegraph to supported media : limit 5MB",
     },
 )
-async def telegraph_(message: Message):
+async def tgm_(message: Message):
     replied = message.reply_to_message
     if not replied:
         await message.err("reply to supported media")
