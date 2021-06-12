@@ -82,14 +82,15 @@ def _format_about(about: Union[str, Dict[str, Union[str, List[str], Dict[str, st
         return about
     tmp_chelp = ''
     if 'header' in about and isinstance(about['header'], str):
-        tmp_chelp += f"<i><b>{about['header'].title()}</b><i>"
+        tmp_chelp += ("\n\n➠ <u><b>Intro</b></u> :\n\n    "
+                      f"<i><b>{about['header'].title()}</b><i>"
         del about['header']
     if 'description' in about and isinstance(about['description'], str):
-        tmp_chelp += ("\n\n📝 <u><b>Description</b></u> :\n\n    "
+        tmp_chelp += ("\n\n➠ <u><b>Description</b></u> :\n\n    "
                       f"<i>{about['description'].capitalize()}</i>")
         del about['description']
     if 'flags' in about:
-        tmp_chelp += "\n\n⛓ <u><b>Available Flags</b></u> :\n"
+        tmp_chelp += "\n\n➠ <u><b>Available Flags</b></u> :\n"
         if isinstance(about['flags'], dict):
             for f_n, f_d in about['flags'].items():
                 tmp_chelp += f"\n    ▫ <code>{f_n}</code> : <i>{f_d.lower()}</i>"
@@ -97,15 +98,15 @@ def _format_about(about: Union[str, Dict[str, Union[str, List[str], Dict[str, st
             tmp_chelp += f"\n    {about['flags']}"
         del about['flags']
     if 'options' in about:
-        tmp_chelp += "\n\n🕶 <u><b>Available Options</b></u> :\n"
+        tmp_chelp += "\n\n➠ <u><b>Available Options</b></u> :\n"
         if isinstance(about['options'], dict):
             for o_n, o_d in about['options'].items():
-                tmp_chelp += f"\n    ▫ <code>{o_n}</code> : <i>{o_d.lower()}</i>"
+                tmp_chelp += f"\n    • <code>{o_n}</code> : <i>{o_d.lower()}</i>"
         else:
             tmp_chelp += f"\n    {about['options']}"
         del about['options']
     if 'types' in about:
-        tmp_chelp += "\n\n🎨 <u><b>Supported Types</b></u> :\n\n"
+        tmp_chelp += "\n\n➠ <u><b>Supported Types</b></u> :\n\n"
         if isinstance(about['types'], list):
             for _opt in about['types']:
                 tmp_chelp += f"    <code>{_opt}</code> ,"
@@ -113,10 +114,10 @@ def _format_about(about: Union[str, Dict[str, Union[str, List[str], Dict[str, st
             tmp_chelp += f"    {about['types']}"
         del about['types']
     if 'usage' in about:
-        tmp_chelp += f"\n\n✒ <u><b>Usage</b></u> :\n\n<code>{about['usage']}</code>"
+        tmp_chelp += f"\n\n➠ <u><b>Usage</b></u> :\n\n<code>{about['usage']}</code>"
         del about['usage']
     if 'examples' in about:
-        tmp_chelp += "\n\n✏ <u><b>Examples</b></u> :"
+        tmp_chelp += "\n\n➠ <u><b>Examples</b></u> :"
         if isinstance(about['examples'], list):
             for ex_ in about['examples']:
                 tmp_chelp += f"\n\n    <code>{ex_}</code>"
