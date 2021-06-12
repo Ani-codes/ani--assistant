@@ -17,6 +17,7 @@ REX = re.compile(
 )
 ARL_HELP = """**Oops, Time to Help Yourself**
 [Here Help Yourself](https://www.google.com/search?q=how+to+get+deezer+arl+token)
+
 After getting Arl token Config `ARL_TOKEN` var in heroku"""
 
 
