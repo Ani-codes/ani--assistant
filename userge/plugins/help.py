@@ -43,15 +43,15 @@ CHANNEL = userge.getCLogger(__name__)
 
 _CATEGORY = {
     "admin": "",
-    "fun": "➥",
-    "misc": "➥",
-    "tools": " ➥",
-    "utils": " ➥",
-    "xtra": " ➥",
-    "temp": " ➥",
-    "plugins": " ➥",
-    "bot": " ➥",
-    "custom": " ➥",
+    "fun": "",
+    "misc": "",
+    "tools": "",
+    "utils": " ",
+    "xtra": " ",
+    "temp": " ",
+    "plugins": " ",
+    "bot": " ",
+    "custom": " ",
 }
 # Database
 SAVED_SETTINGS = get_collection("CONFIGS")
@@ -383,15 +383,12 @@ if userge.has_bot:
     def plugin_data(cur_pos: str, p_num: int = 0):
         pos_list = cur_pos.split("|")
         plg = userge.manager.plugins[pos_list[2]]
-        text = f""" <u><b>Plugin Status<b></u>
+        text = f""" <u><b>Plugin Status And Info<b></u>
 
- **Category** : `{pos_list[1]}`
- **Name** : `{plg.name}`
- **Doc** : `{plg.doc}`
- **Commands** : `{len(plg.commands)}`
- **Filters** : `{len(plg.filters)}`
- **Loaded** : `{plg.is_loaded}`
- **Enabled** : `{plg.is_enabled}`
+ **Category** : {pos_list[1]}
+ **Name** : {plg.name}
+ **Filters** : {len(plg.filters)}
+ **Enabled** : {plg.is_enabled}
 """
         tmp_btns = []
         if plg.is_loaded:
@@ -410,21 +407,21 @@ if userge.has_bot:
         if plg.is_enabled:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "➖ Disable",
+                    " Disable",
                     callback_data=f"disable({'|'.join(pos_list[:3])})".encode(),
                 )
             )
         else:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "➕ Enable",
+                    " Enable",
                     callback_data=f"enable({'|'.join(pos_list[:3])})".encode(),
                 )
             )
         buttons = parse_buttons(
             p_num,
             "|".join(pos_list[:3]),
-            lambda x: f"⚖ {x}" if is_filter(x) else f" {x}",
+            lambda x: f" {x}" if is_filter(x) else f" {x}",
             (flt.name for flt in plg.commands + plg.filters),
         )
         buttons = buttons[:-1] + [tmp_btns] + [buttons[-1]]
@@ -447,7 +444,7 @@ if userge.has_bot:
 {flt.about}
 """
         else:
-            text = f""" <b><u>Filter Status</u></b> 
+            text = f""" <b><u>Filter Status And Info</u></b> 
 {flt_data}
 """
         buttons = default_buttons(cur_pos)
@@ -467,13 +464,13 @@ if userge.has_bot:
         if flt.is_enabled:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "➖ Disable", callback_data=f"disable({cur_pos})".encode()
+                    " Disable", callback_data=f"disable({cur_pos})".encode()
                 )
             )
         else:
             tmp_btns.append(
                 InlineKeyboardButton(
-                    "➕ Enable", callback_data=f"enable({cur_pos})".encode()
+                    " Enable", callback_data=f"enable({cur_pos})".encode()
                 )
             )
         buttons = [tmp_btns] + buttons
@@ -498,7 +495,7 @@ if userge.has_bot:
                 owner = [
                     [
                         InlineKeyboardButton(
-                            text="Contact", url="https://t.me/deleteduser420"
+                            text="Contact", url="https://t.me/sanjitsinha"
                         )
                     ]
                 ]
@@ -1137,8 +1134,8 @@ if userge.has_bot:
             MAIN_MENU = InlineQueryResultArticle(
                 title="Main Menu",
                 input_message_content=InputTextMessageContent(" Ani-Assistant Main menu "),
-                url="https://github.com/code-rgb/USERGE-X",
-                description="Userge-X Main Menu",
+                
+                description="Ani-Assistant Main Menu",
                 thumb_url="https://i.imgur.com/1xsOo9o.png",
                 reply_markup=InlineKeyboardMarkup(main_menu_buttons()),
             )
