@@ -189,8 +189,8 @@ class _GDrive:
         elif list_root and not force:
             out = f"**List GDrive Root Folder** : `{self._parent_id}`\n"
         else:
-            out = f"**GDrive Search Query** : `{search_query}`\n"
-        return out + f"**Limit** : `{limit}`\n\n Results : \n\n" + msg
+            out = f"**• GDrive Search Query** : `{search_query}`\n"
+        return out + f"**• Limit** : `{limit}`\n\n Results : \n\n" + msg
 
     def _set_permission(self, file_id: str) -> None:
         permissions = {"role": "reader", "type": "anyone"}
@@ -835,7 +835,7 @@ class Worker(_GDrive):
             )  # pylint: disable=protected-access
             return
         await self._message.edit(
-            f"**Shareable Links**\n\n{out}", disable_web_page_preview=True, log=__name__
+            f"**🔗 Shareable Links**\n\n{out}", disable_web_page_preview=True, log=__name__
         )
 
     @creds_dec
