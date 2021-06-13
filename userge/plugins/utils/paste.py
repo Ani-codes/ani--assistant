@@ -33,7 +33,7 @@ async def paste_(message: Message) -> None:
     await message.edit("`Pasting...`")
     text = message.filtered_input_str
     replied = message.reply_to_message
-    use_neko = False
+    use_neko = True
     file_ext = ".txt"
     if not text and replied:
         if replied.document and replied.document.file_size < 2 ** 20 * 10:
@@ -69,22 +69,17 @@ async def paste_(message: Message) -> None:
                     await message.err("Failed to reach Nekobin")
         else:
             async with ses.post(
-                DOGBIN_URL + "documents", data=text.encode("utf-8")
+               async with ses.post(
+                NEKOBIN_URL + "api/documents", json={"content": text}
             ) as resp:
-                if resp.status == 200:
+                if resp.status == 201:
                     response = await resp.json()
-                    key = response["key"]
-                    final_url = DOGBIN_URL + key
-                    if response["isUrl"]:
-                        reply_text = (
-                            f"**Shortened** [URL]({final_url})\n"
-                            f"**Dogbin** [URL]({DOGBIN_URL}v/{key})"
-                        )
-                    else:
-                        reply_text = f"**Nekobin** [URL]({final_url}{file_ext})"
+                    key = response["result"]["key"]
+                    final_url = NEKOBIN_URL + key + file_ext
+                    reply_text = f"**Nekobin** [URL]({final_url})"
                     await message.edit(reply_text, disable_web_page_preview=True)
                 else:
-                    await message.err("Failed to reach Dogbin")
+                    await message.err("Failed to reach Nekobin")
 
 
 @userge.on_cmd(
