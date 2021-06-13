@@ -40,9 +40,9 @@ OAUTH_SCOPE = [
 ]
 REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob"
 G_DRIVE_DIR_MIME_TYPE = "application/vnd.google-apps.folder"
-G_DRIVE_FILE_LINK = "📄 <a href='https://drive.google.com/open?id={}'>{}</a> __({})__"
+G_DRIVE_FILE_LINK = "➥ 📄 <a href='https://drive.google.com/open?id={}'>{}</a> ({}) \n"
 G_DRIVE_FOLDER_LINK = (
-    "📁 <a href='https://drive.google.com/drive/folders/{}'>{}</a> __(folder)__"
+    "➥ 📁 <a href='https://drive.google.com/drive/folders/{}'>{}</a> (folder) \n"
 )
 _GDRIVE_ID = re.compile(
     r"https://drive.google.com/[\w?.&=/]+([-\w]{33}|(?<=[/=])0(?:A[-\w]{17}|B[-\w]{26}))"
@@ -190,7 +190,7 @@ class _GDrive:
             out = f"**List GDrive Root Folder** : `{self._parent_id}`\n"
         else:
             out = f"**GDrive Search Query** : `{search_query}`\n"
-        return out + f"**Limit** : `{limit}`\n\n__Results__ : \n\n" + msg
+        return out + f"**Limit** : `{limit}`\n\n Results : \n\n" + msg
 
     def _set_permission(self, file_id: str) -> None:
         permissions = {"role": "reader", "type": "anyone"}
@@ -245,7 +245,7 @@ class _GDrive:
             )
             if mime_type == G_DRIVE_DIR_MIME_TYPE:
                 link += "/"
-            out += f"\n👥 __[Shareable Link]({link})__"
+            out += f"\n 🔗 [Shareable Link]({link})"
         return out
 
     def _upload_file(self, file_path: str, parent_id: str) -> str:
@@ -293,14 +293,14 @@ class _GDrive:
                     speed = round(uploaded / diff, 2)
                     eta = round((f_size - uploaded) / speed)
                     tmp = (
-                        "__Uploading to GDrive...__\n"
+                        " Uploading to GDrive... \n"
                         + "```[{}{}]({}%)```\n"
-                        + "**File Name** : `{}`\n"
-                        + "**File Size** : `{}`\n"
-                        + "**Uploaded** : `{}`\n"
-                        + "**Completed** : `{}/{}`\n"
-                        + "**Speed** : `{}/s`\n"
-                        + "**ETA** : `{}`"
+                        + "**➠ File Name** : `{}`\n"
+                        + "**➠ File Size** : `{}`\n"
+                        + "**➠ Uploaded** : `{}`\n"
+                        + "**➠ Completed** : `{}/{}`\n"
+                        + "**➠ Speed** : `{}/s`\n"
+                        + "**➠ ETA** : `{}`"
                     )
                     self._progress = tmp.format(
                         "".join(
@@ -408,14 +408,14 @@ class _GDrive:
                     speed = round(downloaded / diff, 2)
                     eta = round((f_size - downloaded) / speed)
                     tmp = (
-                        "__Downloading From GDrive...__\n"
+                        " Downloading From GDrive... \n"
                         + "```[{}{}]({}%)```\n"
-                        + "**File Name** : `{}`\n"
-                        + "**File Size** : `{}`\n"
-                        + "**Downloaded** : `{}`\n"
-                        + "**Completed** : `{}/{}`\n"
-                        + "**Speed** : `{}/s`\n"
-                        + "**ETA** : `{}`"
+                        + "**➠ File Name** : `{}`\n"
+                        + "**➠ File Size** : `{}`\n"
+                        + "**➠ Downloaded** : `{}`\n"
+                        + "**➠ Completed** : `{}/{}`\n"
+                        + "**➠ Speed** : `{}/s`\n"
+                        + "**➠ ETA** : `{}`"
                     )
                     self._progress = tmp.format(
                         "".join(
@@ -530,9 +530,9 @@ class _GDrive:
         )
         percentage = (self._completed / self._list) * 100
         tmp = (
-            "__Copying Files In GDrive...__\n"
+            " Copying Files In GDrive... \n"
             + "```[{}{}]({}%)```\n"
-            + "**Completed** : `{}/{}`"
+            + "**Completed** : {}/{}"
         )
         self._progress = tmp.format(
             "".join(
