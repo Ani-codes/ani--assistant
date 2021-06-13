@@ -40,9 +40,9 @@ OAUTH_SCOPE = [
 ]
 REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob"
 G_DRIVE_DIR_MIME_TYPE = "application/vnd.google-apps.folder"
-G_DRIVE_FILE_LINK = "➥ 📄 <a href='https://drive.google.com/open?id={}'>{}</a> ({}) \n"
+G_DRIVE_FILE_LINK = "📄 <a href='https://drive.google.com/open?id={}'>{}</a> __({})__"
 G_DRIVE_FOLDER_LINK = (
-    "➥ 📁 <a href='https://drive.google.com/drive/folders/{}'>{}</a> (folder) ({}) \n"
+    "📁 <a href='https://drive.google.com/drive/folders/{}'>{}</a> __(folder)__"
 )
 _GDRIVE_ID = re.compile(
     r"https://drive.google.com/[\w?.&=/]+([-\w]{33}|(?<=[/=])0(?:A[-\w]{17}|B[-\w]{26}))"
@@ -295,12 +295,12 @@ class _GDrive:
                     tmp = (
                         "__Uploading to GDrive...__\n"
                         + "```[{}{}]({}%)```\n"
-                        + "**➠ File Name** : `{}`\n"
-                        + "**➠ File Size** : `{}`\n"
-                        + "**➠ Uploaded** : `{}`\n"
-                        + "**➠ Completed** : `{}/{}`\n"
-                        + "**➠ Speed** : `{}/s`\n"
-                        + "**➠ ETA** : `{}`"
+                        + "**File Name** : `{}`\n"
+                        + "**File Size** : `{}`\n"
+                        + "**Uploaded** : `{}`\n"
+                        + "**Completed** : `{}/{}`\n"
+                        + "**Speed** : `{}/s`\n"
+                        + "**ETA** : `{}`"
                     )
                     self._progress = tmp.format(
                         "".join(
@@ -410,12 +410,12 @@ class _GDrive:
                     tmp = (
                         "__Downloading From GDrive...__\n"
                         + "```[{}{}]({}%)```\n"
-                        + "**➠ File Name** : `{}`\n"
-                        + "**➠ File Size** : `{}`\n"
-                        + "**➠ Downloaded** : `{}`\n"
-                        + "**➠ Completed** : `{}/{}`\n"
-                        + "**➠ Speed** : `{}/s`\n"
-                        + "**➠ ETA** : `{}`"
+                        + "**File Name** : `{}`\n"
+                        + "**File Size** : `{}`\n"
+                        + "**Downloaded** : `{}`\n"
+                        + "**Completed** : `{}/{}`\n"
+                        + "**Speed** : `{}/s`\n"
+                        + "**ETA** : `{}`"
                     )
                     self._progress = tmp.format(
                         "".join(
