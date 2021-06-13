@@ -15,7 +15,7 @@ from aiohttp import ClientResponseError, ServerTimeoutError, TooManyRedirects
 
 from userge import Config, Message, userge
 
-DOGBIN_URL = "https://del.dog/"
+DOGBIN_URL = "https://nekobin.com/"
 NEKOBIN_URL = "https://nekobin.com/"
 
 
@@ -23,15 +23,14 @@ NEKOBIN_URL = "https://nekobin.com/"
     "paste",
     about={
         "header": "Pastes text or text_file to dogbin",
-        "flags": {"-n": "use nekobin"},
         "usage": "{tr}paste [flags] [file_type] [text | reply to msg]",
         "examples": "{tr}paste -py import os",
     },
     del_pre=True,
 )
 async def paste_(message: Message) -> None:
-    """pastes the text directly to dogbin or nekobin"""
-    await message.edit("`Processing...`")
+    """pastes the text directly to nekobin"""
+    await message.edit("`Pasting...`")
     text = message.filtered_input_str
     replied = message.reply_to_message
     use_neko = False
@@ -54,7 +53,7 @@ async def paste_(message: Message) -> None:
         flags.remove("n")
     if flags and len(flags) == 1:
         file_ext = "." + flags[0]
-    await message.edit("`Pasting text ...`")
+    await message.edit("`Pasting ...`")
     async with aiohttp.ClientSession() as ses:
         if use_neko:
             async with ses.post(
@@ -82,7 +81,7 @@ async def paste_(message: Message) -> None:
                             f"**Dogbin** [URL]({DOGBIN_URL}v/{key})"
                         )
                     else:
-                        reply_text = f"**Dogbin** [URL]({final_url}{file_ext})"
+                        reply_text = f"**Nekobin** [URL]({final_url}{file_ext})"
                     await message.edit(reply_text, disable_web_page_preview=True)
                 else:
                     await message.err("Failed to reach Dogbin")
