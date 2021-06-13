@@ -33,7 +33,7 @@ async def paste_(message: Message) -> None:
     await message.edit("`Pasting...`")
     text = message.filtered_input_str
     replied = message.reply_to_message
-    use_neko = True
+    use_neko = False
     file_ext = ".txt"
     if not text and replied:
         if replied.document and replied.document.file_size < 2 ** 20 * 10:
