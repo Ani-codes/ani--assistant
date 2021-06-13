@@ -68,7 +68,6 @@ async def paste_(message: Message) -> None:
                 else:
                     await message.err("Failed to reach Nekobin")
         else:
-            async with ses.post(
                async with ses.post(
                 NEKOBIN_URL + "api/documents", json={"content": text}
             ) as resp:
