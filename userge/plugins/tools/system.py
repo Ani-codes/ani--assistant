@@ -57,9 +57,9 @@ async def _init() -> None:
     allow_channels=False,
 )
 async def restart_(message: Message):
-    """restart USERGE-X"""
-    await message.edit("`Restarting USERGE-X Services`", log=__name__)
-    LOG.info("USERGE-X Services - Restart initiated")
+    """restart Ani-Assistant"""
+    await message.edit("`Restarting Ani-Assistant Services`", log=__name__)
+    LOG.info("Ani-Assistant Services - Restart initiated")
     if "t" in message.flags:
         shutil.rmtree(Config.TMP_PATH, ignore_errors=True)
     if "d" in message.flags:
@@ -81,10 +81,10 @@ async def restart_(message: Message):
 
 
 @userge.on_cmd(
-    "shutdown", about={"header": "shutdown USERGE-X :)"}, allow_channels=False
+    "shutdown", about={"header": "shutdown Ani-Assistant :)"}, allow_channels=False
 )
 async def shutdown_(message: Message) -> None:
-    """shutdown USERGE-X"""
+    """shutdown Ani-Assistant"""
     await message.edit("`shutting down ...`")
     if Config.HEROKU_APP:
         try:
@@ -109,7 +109,7 @@ async def shutdown_(message: Message) -> None:
     allow_channels=False,
 )
 async def die_(message: Message) -> None:
-    """set offline timeout to die USERGE-X"""
+    """set offline timeout to die Ani-Assistant"""
     global MAX_IDLE_TIME  # pylint: disable=global-statement
     if not Config.HEROKU_APP:
         await message.err("`heroku app not detected !`")
@@ -337,7 +337,7 @@ async def view_disabled_chats_(message: Message):
 
 @userge.on_cmd(
     "sleep (\\d+)",
-    about={"header": "sleep USERGE-X :P", "usage": "{tr}sleep [timeout in seconds]"},
+    about={"header": "sleep Ani-Assistant :P", "usage": "{tr}sleep [timeout in seconds]"},
     allow_channels=False,
 )
 async def sleep_(message: Message) -> None:
