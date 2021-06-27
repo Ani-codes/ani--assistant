@@ -35,7 +35,7 @@ async def req_head(message: Message):
         return
     output = f"**URL**: `{link}`\n\n**STATUS CODE**: __{cd.status_code}__\n\n**HEADERS**:\n\n"
     for k, v in cd.headers.items():
-        output += f"   🏷 __{k.lower()}__ : `{v}`\n\n"
+        output += f"   ➠ __{k.lower()}__ : `{v}`\n\n"
     await message.edit_or_send_as_file(
         text=output, caption=link, disable_web_page_preview=True
     )
