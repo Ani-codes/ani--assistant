@@ -131,7 +131,7 @@ __Command:__\n`{cmd}`\n__PID:__\n`{pid}`\n__RETURN:__\n`{ret}`\n\n\
 
 
 @userge.on_cmd(
-    "shell",
+    "sh",
     about={
         "header": "run commands in shell (terminal)",
         "usage": "{tr}term [commands]",
@@ -139,7 +139,7 @@ __Command:__\n`{cmd}`\n__PID:__\n`{pid}`\n__RETURN:__\n`{ret}`\n\n\
     },
     allow_channels=False,
 )
-async def shell_(message: Message):
+async def sh_(message: Message):
     """run commands in shell (terminal with live update)"""
     cmd = await init_func(message)
     if cmd is None:
