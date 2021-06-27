@@ -48,17 +48,17 @@ async def direct_(message: Message):
         elif "cloud.mail.ru" in link:
             reply += f" 👉 {cm_ru(link)}\n"
         elif "mediafire.com" in link:
-            reply += f" 👉 {mediafire(link)}\n"
+            reply += f" × {mediafire(link)}"
         elif "sourceforge.net" in link:
-            reply += f" 👉 {sourceforge(link)}\n"
+            reply += f" × {sourceforge(link)}"
         elif "osdn.net" in link:
-            reply += f" 👉 {osdn(link)}\n"
+            reply += f" × {osdn(link)}"
         elif "github.com" in link:
-            reply += f" 👉 {github(link)}\n"
+            reply += f" × {github(link)}"
         elif "androidfilehost.com" in link:
-            reply += f" 👉 {androidfilehost(link)}\n"
+            reply += f" × {androidfilehost(link)}"
         else:
-            reply += f" 👀 {link} is not supported!\n"
+            reply += f" × {link} is not supported!"
     await message.edit(reply)
 
 
@@ -68,7 +68,7 @@ def gdrive(url: str) -> str:
     try:
         link = re.findall(r"\bhttps?://drive\.google\.com\S+", url)[0]
     except IndexError:
-        reply = "`No Google drive links found`\n"
+        reply = "No Google drive links found"
         return reply
     file_id = ""
     reply = ""
