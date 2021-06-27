@@ -1,4 +1,4 @@
-"" Wallpaper Module """
+
 
 import os
 import wget
