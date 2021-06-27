@@ -341,7 +341,7 @@ async def view_disabled_chats_(message: Message):
     allow_channels=False,
 )
 async def sleep_(message: Message) -> None:
-    """sleep USERGE-X"""
+    """sleep Ani-Assistant"""
     seconds = int(message.matches[0].group(1))
     await message.edit(f"`sleeping {seconds} seconds...`")
     asyncio.get_event_loop().create_task(_slp_wrkr(seconds))
