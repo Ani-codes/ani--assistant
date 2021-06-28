@@ -39,7 +39,7 @@ class Colors:
         "header": "Google Image Downloader",
         "description": "Search and download images from google and upload to telegram",
         "flags": {
-            "-l": "limit max. [40 for upload | 100 for download] (default is 5)",
+            "-l": "limit max. [400 for upload | 400 for download] (default is 5)",
             "-q": "quality [0-2] (2 is best | default is 1)",
             "-d": "Upload as document",
             "-gif": "download gifs",
@@ -81,7 +81,7 @@ async def img_down(message: Message):
     upload_ = not bool("down" in flags_ or allow_gif)
     doc_ = bool("d" in flags_)
     limit = int(flags_.get("l", 5))
-    limit = min(limit, 40) if upload_ else min(limit, 100)
+    limit = min(limit, 400) if upload_ else min(limit, 400)
     if flags_:
         size = min(int(flags_.get("q", 1)), 2)
         for _ in flags_:
