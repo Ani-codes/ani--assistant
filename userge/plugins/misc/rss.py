@@ -36,13 +36,13 @@ async def _init():
 
 async def add_new_feed(url: str, l_u: str) -> str:
     if url in RSS_DICT:
-        out_str = "`Url is matched in Existing Feed Database.`"
+        out_str = "Url is matched in Existing Feed Database."
     else:
         pub, now = _parse_time(l_u)
         out_str = f"""
 #ADDED_NEW_FEED_URL
-\t\t**FEED URL:** `{url}`
-\t\t**LAST UPDATED:** `{pub}`
+\t\t**FEED URL:** {url}
+\t\t**LAST UPDATED:** {pub}
 """
         RSS_DICT[url] = [pub, now]
         if not TASK_RUNNING:
@@ -57,12 +57,12 @@ async def delete_feed(url: str) -> str:
     if url in RSS_DICT:
         out_str = f"""
 #DELETED_FEED_URL
-\t\t**FEED_URL:** `{url}`
+\t\t**FEED_URL:** {url}
 """
         del RSS_DICT[url]
         await RSS_COLLECTION.delete_one({"url": url})
     else:
-        out_str = "`This Url is not in my database.`"
+        out_str = "This Url is not in my database."
     return out_str
 
 
@@ -89,9 +89,9 @@ async def send_new_post(entries):
         author_link = entries.get("authors")[0]["href"]
     out_str = f"""
 **New post Found**
-**Title:** `{title}`
+**Title:** {title}
 **Author:** [{author}]({author_link})
-**Last Updated:** `{time}`
+**Last Updated:** {time}
 """
     markup = InlineKeyboardMarkup(
         [[InlineKeyboardButton(text="View Post Online", url=link)]]
@@ -191,10 +191,10 @@ async def list_rss_feed(msg: Message):
     """List all Subscribed Feeds"""
     out_str = ""
     for url, date in RSS_DICT.items():
-        out_str += f"**FEED URL:** `{url}`"
-        out_str += f"\n**LAST CHECKED:** `{date[1]}`\n\n"
+        out_str += f"**FEED URL:** {url}"
+        out_str += f"\n**LAST CHECKED:** {date[1]}\n\n"
     if not out_str:
-        out_str = "`No feed Url Found.`"
+        out_str = "No feed Url Found."
     await msg.edit(out_str)
 
 
